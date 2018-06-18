@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "start": "webpack-dashboard -- node ./webpack.dev.js",
+    "start": "webpack-dashboard -- node ./server.js",
     "build": "cross-env NODE_ENV=production webpack --progress --config ./webpack.prod.js -p",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@fdaciuk/ajax": "^2.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
@@ -13,6 +14,7 @@
     "@storybook/addon-actions": "^3.4.7",
     "@storybook/addon-links": "^3.4.7",
     "@storybook/addons": "^3.4.7",
+    "@storybook/cli": "^3.4.7",
     "@storybook/react": "^3.4.7",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
@@ -21,12 +23,11 @@
     "babel-runtime": "^6.26.0",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
+    "cssnano": "^3.10.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
-    "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^4.0.2",
     "react-hot-loader": "^4.3.3",
-    "sass-loader": "^7.0.3",
     "standard": "^11.0.1",
     "standard-loader": "^6.0.1",
     "style-loader": "^0.21.0",

@@ -29,16 +29,17 @@ module.exports = merge(base, {
         extractComments: true
       }),
       new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: { discardComments: { removeAll: true } }
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+        canPrint: true
       })
     ]
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      DEBUG: false
     }),
 
     new MiniCssExtractPlugin({
@@ -53,11 +54,7 @@ module.exports = merge(base, {
         test: /\.s?[ac]ss$/,
         include: path.join(__dirname, 'src'),
         exclude: /node_modules/,
-        loader: [
-          MiniCssExtractPlugin.loader,
-          'css-loader?modules',
-          'sass-loader'
-        ]
+        loader: [MiniCssExtractPlugin.loader, 'css-loader?modules']
       }
     ]
   }

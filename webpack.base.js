@@ -14,7 +14,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'WEBPACK REACT BOILERPLATE',
+      title: 'Github APP',
       template: path.join(__dirname, 'src', 'html', 'template.html')
     })
   ],
@@ -41,8 +41,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       src: path.join(__dirname, 'src'),
-      components: path.join(__dirname, 'src', 'components'),
-      sass: path.join(__dirname, 'src', 'sass')
+      components: path.join(__dirname, 'src', 'components')
     }
   }
 }

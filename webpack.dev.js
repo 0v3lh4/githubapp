@@ -1,14 +1,13 @@
 const merge = require('webpack-merge')
-const webpack = require('webpack')
 const base = require('./webpack.base')
-const WebpackDevServer = require('webpack-dev-server')
 const path = require('path')
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 
 const LISTEN_PORT = 3000
 
-const devConfig = merge(
+module.exports = merge(
   {
     mode: 'development',
 
@@ -16,7 +15,7 @@ const devConfig = merge(
 
     entry: {
       app: [
-        'webpack-dev-server/client?http://0.0.0.0:3000',
+        `webpack-dev-server/client?http://0.0.0.0:${LISTEN_PORT}`,
         'webpack/hot/only-dev-server'
       ]
     },
@@ -28,7 +27,8 @@ const devConfig = merge(
         colors: true,
         stats: 'verbose'
       },
-      hot: true
+      hot: true,
+      port: LISTEN_PORT
     },
 
     plugins: [
@@ -39,6 +39,10 @@ const devConfig = merge(
         filename: '[name].[hash].css',
         chunkFilename: '[id].[hash].css'
       }),
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: 'development',
+        DEBUG: true
+      }),
       new DashboardPlugin()
     ],
 
@@ -48,22 +52,10 @@ const devConfig = merge(
           test: /\.s?[ac]ss$/,
           include: path.join(__dirname, 'src'),
           exclude: /node_modules/,
-          loader: ['style-loader', 'css-loader?modules', 'sass-loader']
+          loader: ['style-loader', 'css-loader?modules']
         }
       ]
     }
   },
   base
 )
-
-new WebpackDevServer(
-  webpack(devConfig),
-  devConfig.devServer
-).listen(3000, '0.0.0.0', err => {
-  if (err) {
-    console.log(err)
-    return
-  }
-
-  console.log(`Listening on http://localhost:${LISTEN_PORT}`)
-})
