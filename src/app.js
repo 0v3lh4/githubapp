@@ -55,16 +55,14 @@ class App extends React.Component {
   getRepos (type) {
     return e => {
       const username = this.state.userinfo.login
-      ajax()
-        .get(this.getGitHubApiUrl(username, type))
-        .then(result => {
-          this.setState({
-            [type]: result.map(repo => ({
-              name: repo.name,
-              link: repo.html_url
-            }))
-          })
+      ajax().get(this.getGitHubApiUrl(username, type)).then(result => {
+        this.setState({
+          [type]: result.map(repo => ({
+            name: repo.name,
+            link: repo.html_url
+          }))
         })
+      })
     }
   }
 

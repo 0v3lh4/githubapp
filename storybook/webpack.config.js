@@ -8,25 +8,21 @@
 
 const path = require('path')
 
-module.exports = {
-  plugins: [
-    // your custom plugins
-  ],
-  module: {
-    rules: [
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        include: path.join(__dirname, '../src'),
-        exclude: /node_modules/,
-        loader: 'standard-loader'
-      },
-      {
-        test: /\.s?[ac]ss$/,
-        include: path.join(__dirname, '../src'),
-        exclude: /node_modules/,
-        loader: ['style-loader', 'css-loader?modules']
-      }
-    ]
-  }
+module.exports = (storybookBaseConfig, configType) => {
+  storybookBaseConfig.module.rules.push(
+    {
+      enforce: 'pre',
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'standard-loader'
+    },
+    {
+      test: /\.s?[ac]ss$/,
+      include: path.join(__dirname, '../src'),
+      exclude: /node_modules/,
+      loader: ['style-loader', 'css-loader?modules']
+    }
+  )
+
+  return storybookBaseConfig
 }
