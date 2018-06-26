@@ -3,8 +3,8 @@
 const gulp = require('gulp')
 const { spawn } = require('child_process')
 
-gulp.task('lint', (cb) => {
-  const cmd = spawn('yarn', ['lint'], { stdio: 'inherit' })
+gulp.task('lint', cb => {
+  const cmd = spawn('yarn', ['lint'], { stdio: 'inherit', shell: true })
   cmd.on('close', () => cb())
 })
 

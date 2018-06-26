@@ -1,12 +1,9 @@
 'use strict'
 
-const rulePage = ({total, activePage}) => (
-  activePage === 1
+const centerPage = ({ total, activePage }) =>
+  (activePage === 1
     ? 1
-    : total === activePage
-      ? activePage - 2
-      : activePage - 1
-)
+    : total === activePage ? activePage - 2 : activePage - 1)
 
 const pagination = ({ total, activePage }) => {
   if (total <= 5) {
@@ -17,11 +14,42 @@ const pagination = ({ total, activePage }) => {
 
   let pages = [
     1,
-    ...Array.from({ length: visiblePages }, (_, i) => i + rulePage({ total, activePage })),
+    ...Array.from(
+      { length: visiblePages },
+      (_, i) => i + centerPage({ total, activePage })
+    ),
     total
   ]
 
   pages = pages.filter((page, index, array) => array.indexOf(page) === index)
+
+  let firstPage = pages[0]
+  let secondPage = pages[1]
+
+  if (firstPage === secondPage - 2) {
+    pages = [firstPage, secondPage - 1, ...pages.slice(secondPage - 2)]
+  }
+
+  firstPage = pages[0]
+  secondPage = pages[1]
+
+  if (firstPage < secondPage - 2) {
+    pages = [firstPage, '...', ...pages.slice(firstPage)]
+  }
+
+  let penultimatePage = pages[pages.length - 2]
+  let lastPage = pages[pages.length - 1]
+
+  if (penultimatePage < lastPage - 2) {
+    pages = [...pages.slice(0, -1), '...', lastPage]
+  }
+
+  penultimatePage = pages[pages.length - 2]
+  lastPage = pages[pages.length - 1]
+
+  if (penultimatePage === lastPage - 2) {
+    pages = [...pages.slice(0, -1), lastPage - 1, lastPage]
+  }
 
   return pages
 }
