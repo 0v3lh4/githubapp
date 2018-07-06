@@ -216,3 +216,44 @@ test('pagination({ total:250, activePage:100 }) should return [1, "...", 99, 100
   const result = [1, '...', 99, 100, 101, '...', 250]
   expect(pagination(params)).to.be.deep.equal(result)
 })
+
+test('pagination({ total:250 }) should return [1, 2, 3, "...", 250]', () => {
+  const params = { total: 250 }
+  const result = [1, 2, 3, '...', 250]
+  expect(pagination(params)).to.be.deep.equal(result)
+})
+
+test('pagination({ }) should return [1]', () => {
+  const params = {}
+  const result = [1]
+  expect(pagination(params)).to.be.deep.equal(result)
+})
+
+test('pagination() should return [1]', () => {
+  const result = [1]
+  expect(pagination()).to.be.deep.equal(result)
+})
+
+test('pagination({ total:"abc", activePage:100 }) should TypeError exception', () => {
+  const params = { total: 'abc', activePage: 100 }
+  const result = 'total should be a number'
+
+  try {
+    pagination(params)
+    expect(0).to.be.equal(1)
+  } catch (e) {
+    expect(result).to.be.equal(e.message)
+  }
+})
+
+test('pagination({ total:10, activePage:"abc" }) should TypeError exception', () => {
+  const params = { total: 10, activePage: 'abc' }
+  const result = 'activePage should be a number'
+
+  try {
+    pagination(params)
+    expect(0).to.be.equal(1)
+  } catch (e) {
+    expect(result).to.be.equal(e.message)
+  }
+})

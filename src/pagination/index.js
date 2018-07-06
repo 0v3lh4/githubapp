@@ -5,7 +5,17 @@ const centerPage = ({ total, activePage }) =>
     ? 1
     : total === activePage ? activePage - 2 : activePage - 1)
 
-const pagination = ({ total, activePage }) => {
+const isNumber = value => typeof value === 'number'
+
+const pagination = ({ total = 1, activePage = 1 } = {}) => {
+  if (!isNumber(total)) {
+    throw new TypeError('total should be a number')
+  }
+
+  if (!isNumber(activePage)) {
+    throw new TypeError('activePage should be a number')
+  }
+
   if (total <= 5) {
     return Array.from({ length: total }, (_, i) => i + 1)
   }

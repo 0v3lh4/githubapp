@@ -2,7 +2,7 @@
   "scripts": {
     "start": "webpack-dashboard -- node ./server.js",
     "test": "jest --coverage",
-    "test:watch": "yarn test --watch",
+    "test:watch": "yarn test --watchAll",
     "lint": "standard --verbose | snazzy",
     "lint:fix": "standard --fix",
     "lint:watch": "gulp",
@@ -49,6 +49,10 @@
     "webpack-merge": "^4.1.3"
   },
   "standard": {
-    "globals": ["test", "it", "describe"]
+    "globals": [
+      "test",
+      "it",
+      "describe"
+    ]
   }
 }
