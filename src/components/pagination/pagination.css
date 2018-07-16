@@ -1,0 +1,26 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.pagination_link {
+  align-items: center;
+  border: 1px solid #ccc;
+  color: inherit;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  min-width: 50px;
+  text-decoration: none;
+  width: 50px;
+}
+
+.pagination_item:not(:first-child) .pagination_link {
+  border-left: 0;
+}
+
+.pagination_item.active .pagination_link {
+  background: #333;
+  color: #fff;
+}

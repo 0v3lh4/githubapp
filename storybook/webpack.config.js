@@ -7,6 +7,7 @@
 // to "React Create App". This only has babel loader to load JavaScript.
 
 const path = require('path')
+const webpackDev = require('../webpack.dev')
 
 module.exports = (storybookBaseConfig, configType) => {
   storybookBaseConfig.module.rules.push(
@@ -24,11 +25,7 @@ module.exports = (storybookBaseConfig, configType) => {
     }
   )
 
-  storybookBaseConfig.resolve = {
-    alias: {
-      utils: path.join(__dirname, '..', 'src', 'utils')
-    }
-  }
+  storybookBaseConfig.resolve = webpackDev.resolve
 
   return storybookBaseConfig
 }

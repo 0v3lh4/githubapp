@@ -1,9 +1,10 @@
 'use strict'
 
 import React from 'react'
+import Pagination from 'components/pagination'
 import styles from './repos.css'
 
-const Repos = ({ className, title, repos }) => (
+const Repos = ({ className, title, repos, pagination, handlePagination }) => (
   <div className={`${styles.repos_list} ${className}`}>
     <h2>{title}</h2>
     <ul>
@@ -13,12 +14,13 @@ const Repos = ({ className, title, repos }) => (
         </li>
       ))}
     </ul>
+    <Pagination total={pagination.total} activePage={pagination.activePage} onClick={handlePagination} />
   </div>
 )
 
 Repos.defaultProps = {
   className: '',
-  repos: []
+  repos: {}
 }
 
 export default Repos

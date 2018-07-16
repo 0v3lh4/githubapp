@@ -1,27 +1,33 @@
-'use strict'
 
+'use strict'
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import ajax from '@fdaciuk/ajax'
 import AppContent from './components/app-content'
+
+const initialReposBase = {
+  repos: [],
+  pagination: {}
+}
 
 class App extends React.Component {
   constructor () {
     super()
     this.state = {
       userinfo: null,
-      repos: [],
-      starred: [],
+      repos: initialReposBase,
+      starred: initialReposBase,
       isFetching: false
     }
 
+    this.per_page = 3
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  getGitHubApiUrl (username, type) {
+  getGitHubApiUrl (username, type, page = 1) {
     const internalUser = username ? `/${username}` : ''
     const internalType = type ? `/${type}` : ''
-    return `https://api.github.com/users${internalUser}${internalType}`
+    return `https://api.github.com/users${internalUser}${internalType}?page=${page}&per_page=${this.per_page}`
   }
 
   handleSearch (e) {
@@ -44,23 +50,29 @@ class App extends React.Component {
               followers: result.followers,
               following: result.following
             },
-            repos: [],
-            starred: []
+            repos: initialReposBase,
+            starred: initialReposBase
           })
         })
         .always(() => this.setState({ isFetching: false }))
     }
   }
 
-  getRepos (type) {
+  getRepos (type, page) {
     return e => {
       const username = this.state.userinfo.login
-      ajax().get(this.getGitHubApiUrl(username, type)).then(result => {
+      ajax().get(this.getGitHubApiUrl(username, type, page)).then(result => {
         this.setState({
-          [type]: result.map(repo => ({
-            name: repo.name,
-            link: repo.html_url
-          }))
+          [type]: {
+            repos: result.map(repo => ({
+              name: repo.name,
+              link: repo.html_url
+            })),
+            pagination: {
+              total: (Math.ceil(parseInt(this.state.userinfo[type]) / 3)),
+              activePage: page
+            }
+          }
         })
       })
     }
@@ -73,6 +85,7 @@ class App extends React.Component {
         handleSearch={this.handleSearch}
         getRepos={this.getRepos('repos')}
         getStarred={this.getRepos('starred')}
+        handlePagination={(type, page) => this.getRepos(type, page)()}
       />
     )
   }
