@@ -61,7 +61,9 @@ class App extends React.Component {
   getRepos (type, page) {
     return e => {
       const username = this.state.userinfo.login
-      ajax().get(this.getGitHubApiUrl(username, type, page)).then(result => {
+      ajax().get(this.getGitHubApiUrl(username, type, page)).then((result, xhr) => {
+        const link = xhr.getResponseHeader('Link')
+        const matchPage = link.match(/\?page=(\d+)&per_page=\d+>; rel="last"/)
         this.setState({
           [type]: {
             repos: result.map(repo => ({
@@ -69,7 +71,7 @@ class App extends React.Component {
               link: repo.html_url
             })),
             pagination: {
-              total: (Math.ceil(parseInt(this.state.userinfo[type]) / 3)),
+              total: matchPage ? +matchPage[1] : this.state[type].pagination.total,
               activePage: page
             }
           }
